@@ -25,7 +25,7 @@
 #include "Log.h"
 #include "Exception.h"
 
-void Exception::logNested(const std::exception &e, int level)
+void SkaleException::logNested(const std::exception &e, int level)
 {
     string prefix;
 

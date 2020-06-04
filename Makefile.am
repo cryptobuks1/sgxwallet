@@ -71,7 +71,7 @@ COMMON_SRC = InvalidStateException.cpp  Exception.cpp InvalidArgumentException.c
              ECDSACrypto.cpp \
              DKGCrypto.cpp ServerInit.cpp BLSPrivateKeyShareSGX.cpp LevelDB.cpp ServerDataChecker.cpp SEKManager.cpp \
              sgx_stub.c sgx_detect_linux.c create_enclave.c oc_alloc.c \
-             ECDSAImpl.c
+             ECDSAImpl.c TestKeyGenerator.cpp
 COMMON_ENCLAVE_SRC = secure_enclave_u.c secure_enclave_u.h
 
 sgxwallet_SOURCES = sgxwallet.c  $(COMMON_SRC)

@@ -40,12 +40,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <libff/algebra/exponentiation/exponentiation.hpp>
 #include <libff/algebra/fields/fp.hpp>
 
+#include "spdlog/spdlog.h"
 using namespace std;
 
 #include <stdbool.h>
 
 #include "BLSCrypto.h"
 #include "ServerInit.h"
+
+
 
 #include "SEKManager.h"
 #include "SGXWalletServer.h"
@@ -146,6 +149,11 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    if (generateTestKeys  && useHTTPSOption ) {
+        spdlog::error("Option -T currently requires -n");
+        exit(1);
+    }
+
     setFullOptions(printDebugInfoOption, printTraceInfoOption, useHTTPSOption, autoconfirmOption, encryptKeysOption);
 
     uint32_t enclaveLogLevel = L_INFO;
@@ -158,8 +166,6 @@ int main(int argc, char *argv[]) {
 
     initAll(enclaveLogLevel, checkClientCertOption, autoSignClientCertOption);
 
-
-
     if (generateTestKeys) {
         sleep(10);
         TestKeyGenerator::ecdsaTestKeyGen(eid);
@@ -167,7 +173,7 @@ int main(int argc, char *argv[]) {
     }
 
     while (true) {
-        sleep(10);
+        sleep(3);
     }
 
     return 0;

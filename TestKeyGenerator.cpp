@@ -56,6 +56,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "LevelDB.h"
 #include "SGXWalletServer.hpp"
 
+#include "spdlog/spdlog.h"
+
 #include "catch.hpp"
 #include "stubclient.h"
 #include "BLSSigShare.h"
@@ -245,6 +247,7 @@ void TestKeyGenerator::sendRPCRequest() {
 
 
 void TestKeyGenerator::ecdsaTestKeyGen(sgx_enclave_id_t _eid) {
+    spdlog::info("Generating ecdsa test keys ...");
     vector<char> errMsg(BUF_LEN, 0);
     int errStatus = 0;
     vector <uint8_t> encrPrivKey(BUF_LEN, 0);
@@ -255,7 +258,12 @@ void TestKeyGenerator::ecdsaTestKeyGen(sgx_enclave_id_t _eid) {
                                                   pubKeyX.data(),
                                                   pubKeyY.data());
 
-    CHECK_STATE(status = SGX_SUCCESS);
+    CHECK_STATE(status == SGX_SUCCESS);
+
+
+
+    spdlog::info("Successfully generated ecdsa test keys.");
+
 }
 
 void TestKeyGenerator::blsTestKeyGen() {

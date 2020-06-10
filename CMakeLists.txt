@@ -75,6 +75,7 @@ add_executable(sgxwallet
         SGXRegistrationServer.cpp
         SGXRegistrationServer.h
         sgxwallet.c
+        sgxwallet.cpp
         sgxwallet.h
         sgxwallet_common.h
         SGXWalletServer.cpp

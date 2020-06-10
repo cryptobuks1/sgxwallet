@@ -29,9 +29,9 @@ class TestKeyGenerator {
 
 public:
 
-static string stringFromFr(libff::alt_bn128_Fr &el);
+    static string stringFromFr(libff::alt_bn128_Fr &el);
 
-    static vector <libff::alt_bn128_Fr> splitStringToFr(const char *coeffs, const char symbol) ;
+    static vector <libff::alt_bn128_Fr> splitStringToFr(const char *coeffs, const char symbol);
 
     static string convertDecToHex(string dec, int numBytes = 32);
 

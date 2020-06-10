@@ -185,6 +185,7 @@ void enter_SEK(){
   uint32_t enc_len;
 
   std::shared_ptr <std::string> test_key_ptr = LevelDB::getLevelDb() -> readString("TEST_KEY");
+
   if (test_key_ptr == nullptr){
     spdlog::error("empty db" );
     exit(-1);

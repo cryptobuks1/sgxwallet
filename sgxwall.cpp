@@ -100,7 +100,7 @@ int main(int argc, char *argv[]) {
 
 
 
-    while ((opt = getopt(argc, argv, "cshd0abyvVn")) != -1) {
+    while ((opt = getopt(argc, argv, "cshd0abyvVnT")) != -1) {
         switch (opt) {
             case 'h':
                 printUsage();
@@ -158,8 +158,12 @@ int main(int argc, char *argv[]) {
 
     initAll(enclaveLogLevel, checkClientCertOption, autoSignClientCertOption);
 
+
+
     if (generateTestKeys) {
+        sleep(10);
         TestKeyGenerator::ecdsaTestKeyGen(eid);
+        TestKeyGenerator::blsTestKeyGen();
     }
 
     while (true) {

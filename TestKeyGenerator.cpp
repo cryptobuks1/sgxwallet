@@ -242,7 +242,6 @@ void TestKeyGenerator::sendRPCRequest() {
         pubBLSKeys[i] = c.getBLSPublicKeyShare(blsName);
     }
 
-
 }
 
 

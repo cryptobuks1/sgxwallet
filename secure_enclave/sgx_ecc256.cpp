@@ -29,11 +29,8 @@
  *
  */
 
-#include "string.h"
-#include <openssl/evp.h>
-#include <openssl/ec.h>
-#include <openssl/err.h>
-#include "sgx_tcrypto.h"
+#include "sgx_ecc256.h"
+
 #define POINT_NOT_ON_CURVE 0x1007c06b
 
 /*

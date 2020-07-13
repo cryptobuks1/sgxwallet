@@ -5,6 +5,9 @@
 #define SMALL_BUF_SIZE 1024
 enclave {
 
+from "sgx_tsgxssl.edl" import *;
+
+
 	trusted {
 		include "sgx_tgmp.h"
 

@@ -87,7 +87,8 @@ secure_enclave_SOURCES = secure_enclave_t.c secure_enclave_t.h \
 	Curves.c DomainParameters.c NumberTheory.c Point.c Signature.c DHDkg.c AESUtils.c \
     DKGUtils.cpp   EnclaveCommon.cpp ../third_party/SCIPR/libff/algebra/curves/alt_bn128/alt_bn128_init.cpp \
                 ../third_party/SCIPR/libff/algebra/curves/alt_bn128/alt_bn128_g2.cpp \
-                ../third_party/SCIPR/libff/algebra/curves/alt_bn128/alt_bn128_g1.cpp $(ENCLAVE_KEY) $(ENCLAVE_CONFIG)
+                ../third_party/SCIPR/libff/algebra/curves/alt_bn128/alt_bn128_g1.cpp \
+                sgx_ecc256_ecdsa.cpp sgx_ecc256.cpp $(ENCLAVE_KEY) $(ENCLAVE_CONFIG)
 
 
 ## Add additional linker flags to AM_LDFLAGS here. Don't put
@@ -114,7 +115,9 @@ secure_enclave_LDADD = @SGX_ENCLAVE_LDADD@
 ## --startgroup and --endgroup flags. (This would be where you'd add
 ## SGXSSL libraries, and your trusted c++ library
 
-SGX_EXTRA_TLIBS=-lsgx_tgmp -lsgx_tservice  -lsgx_urts -lsgx_tcxx ../intel-sgx-ssl/Linux/package/lib64/libsgx_tsgxssl_crypto.a
+SGX_EXTRA_TLIBS=-lsgx_tgmp -lsgx_tservice  -lsgx_urts -lsgx_tcxx \
+../intel-sgx-ssl/Linux/package/lib64/libsgx_tsgxssl_crypto.a \
+../intel-sgx-ssl/Linux/package/lib64/libsgx_tsgxssl.a
 
 
 

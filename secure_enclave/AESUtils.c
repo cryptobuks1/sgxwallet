@@ -29,7 +29,7 @@
 
 #include "AESUtils.h"
 
-int AES_encrypt(char *message, uint8_t *encr_message) {
+int AES_encrypt_skale(char *message, uint8_t *encr_message) {
     sgx_read_rand(encr_message + SGX_AESGCM_MAC_SIZE, SGX_AESGCM_IV_SIZE);
     sgx_status_t status = sgx_rijndael128GCM_encrypt(&AES_key, (uint8_t*)message, strlen(message),
                                                      encr_message + SGX_AESGCM_MAC_SIZE + SGX_AESGCM_IV_SIZE,
@@ -40,7 +40,7 @@ int AES_encrypt(char *message, uint8_t *encr_message) {
     return status;
 }
 
-int AES_decrypt(uint8_t *encr_message, uint64_t length, char *message) {
+int AES_decrypt_skale(uint8_t *encr_message, uint64_t length, char *message) {
   uint64_t len = length - SGX_AESGCM_MAC_SIZE - SGX_AESGCM_IV_SIZE;
 
   sgx_status_t status = sgx_rijndael128GCM_decrypt(&AES_key,

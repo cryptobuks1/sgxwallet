@@ -29,12 +29,38 @@
 #include "../SCIPR/libff/algebra/curves/alt_bn128/alt_bn128_init.hpp"
 #include "../SCIPR/libff/algebra/curves/alt_bn128/alt_bn128_pp.hpp"
 
+
 #include "secure_enclave_t.h"
+#include "Point.h"
+#include "mutex"
+#include "map"
+#include <sgx_tgmp.h>
+
+
 
 #include "EnclaveConstants.h"
 #include "EnclaveCommon.h"
 
+
+
 using namespace std;
+
+/*
+
+mutex ecdsaMutex;
+mutex blsMutex;
+
+ */
+
+map<string, mpz_t*>* ecdsaPrivateKeys = nullptr;
+map<string,libff::alt_bn128_Fr*>* blsPrivateKeys = nullptr;
+
+
+void initMaps() {
+    ecdsaPrivateKeys = new map<string, mpz_t*>();
+    blsPrivateKeys = new map<string, libff::alt_bn128_Fr*>();
+}
+
 
 string *stringFromKey(libff::alt_bn128_Fr *_key) {
     mpz_t t;
@@ -97,6 +123,7 @@ void enclave_init() {
         return;
     inited = 1;
     libff::init_alt_bn128_params();
+    initMaps();
 }
 
 bool enclave_sign(const char *_keyString, const char *_hashXString, const char *_hashYString,

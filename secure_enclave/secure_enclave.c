@@ -211,8 +211,9 @@ void trustedGenerateEcdsaKey(int *errStatus, char *errString,
         return;
     }
 
-    *enc_len = sealedLen;
+    *errStatus = 0;
 
+    *enc_len = sealedLen;
     mpz_clear(skey);
     domain_parameters_clear(curve);
     point_clear(Pkey);
@@ -288,6 +289,10 @@ void trustedGetPublicEcdsaKey(int *errStatus, char *errString,
         pub_key_y[i] = '0';
     }
     strncpy(pub_key_y + n_zeroes, arr_y, 1024 - n_zeroes);
+
+
+    *errStatus = 0;
+
 
     mpz_clear(privateKeyMpz);
     domain_parameters_clear(curve);
@@ -380,6 +385,8 @@ void trustedEcdsaSign(int *errStatus, char *errString, uint8_t *encryptedPrivate
     mpz_get_str(arrS, base, sign->s);
     strncpy(sigS, arrS, 1024);
     *sig_v = sign->v;
+
+    *errStatus = 0;
 
     clean:
 
@@ -521,6 +528,8 @@ void trustedBlsSignMessage(int *errStatus, char *errString, uint8_t *encryptedPr
         return;
     }
 
+    *errStatus = 0;
+
     free(sig);
 }
 
@@ -545,6 +554,8 @@ void trustedGenDkgSecret(int *errStatus, char *errString, uint8_t *encrypted_dkg
         return;
     }
 
+    *errStatus = 0;
+
     *enc_len = sealedLen;
 }
 
@@ -563,6 +574,7 @@ trustedDecryptDkgSecret(int *errStatus, char *errString, uint8_t *encrypted_dkg_
         return;
     }
 
+    *errStatus = 0;
     *dec_len = decr_len;
 }
 
@@ -584,6 +596,9 @@ void trustedGetSecretShares(int *errStatus, char *errString, uint8_t *encrypted_
     *dec_len = decr_len;
 
     calc_secret_shares(decrypted_dkg_secret, secret_shares, _t, _n);
+
+    *errStatus = 0;
+
 }
 
 void trustedGetPublicShares(int *errStatus, char *errString, uint8_t *encrypted_dkg_secret, uint32_t enc_len,
@@ -607,6 +622,9 @@ void trustedGetPublicShares(int *errStatus, char *errString, uint8_t *encrypted_
         free(decrypted_dkg_secret);
         return;
     }
+
+    *errStatus = 0;
+
     free(decrypted_dkg_secret);
 }
 
@@ -743,6 +761,10 @@ void trustedDkgVerify(int *errStatus, char *errString, const char *public_shares
     }
 
     *result = Verification(public_shares, s, _t, _ind);
+
+
+    *errStatus = 0;
+
     mpz_clear(s);
 
     snprintf(errString, BUF_LEN, "common_key in verification is %s", common_key);
@@ -836,6 +858,8 @@ void trustedCreateBlsKey(int *errStatus, char *errString, const char *s_shares,
     }
     *enc_bls_key_len = sealedLen;
 
+    *errStatus = 0;
+
     mpz_clear(bls_key);
     mpz_clear(sum);
     mpz_clear(q);
@@ -862,6 +886,9 @@ void trustedGetBlsPubKey(int *errStatus, char *errString, uint8_t *encryptedPriv
         snprintf(errString, BUF_LEN, "could not calculate bls public key");
         return;
     }
+
+
+    *errStatus = 0;
 }
 
 void trustedGenerateSEK(int *errStatus, char *errString,
@@ -889,6 +916,7 @@ void trustedGenerateSEK(int *errStatus, char *errString,
     }
 
     *enc_len = sealedLen;
+    *errStatus = 0;
 }
 
 void trustedSetSEK(int *errStatus, char *errString, uint8_t *encrypted_SEK, uint64_t encr_len) {
@@ -907,6 +935,8 @@ void trustedSetSEK(int *errStatus, char *errString, uint8_t *encrypted_SEK, uint
 
     uint64_t len;
     hex2carray(aes_key_hex, &len, (uint8_t *) AES_key);
+
+    *errStatus = 0;
 }
 
 void trustedSetSEK_backup(int *errStatus, char *errString,
@@ -927,6 +957,8 @@ void trustedSetSEK_backup(int *errStatus, char *errString,
     }
 
     *enc_len = sealedLen;
+
+    *errStatus = 0;
 }
 
 void trustedGenerateEcdsaKeyAES(int *errStatus, char *errString,
@@ -1013,6 +1045,9 @@ void trustedGenerateEcdsaKeyAES(int *errStatus, char *errString,
         return;
     }
 
+
+    *errStatus = 0;
+
     mpz_clear(skey);
     domain_parameters_clear(curve);
     point_clear(Pkey);
@@ -1092,6 +1127,8 @@ void trustedGetPublicEcdsaKeyAES(int *errStatus, char *errString,
         pub_key_y[i] = '0';
     }
     strncpy(pub_key_y + n_zeroes, arr_y, 1024 - n_zeroes);
+
+    *errStatus = 0;
 
     mpz_clear(privateKeyMpz);
     domain_parameters_clear(curve);
@@ -1189,6 +1226,8 @@ void trustedEcdsaSignAES(int *errStatus, char *errString, uint8_t *encryptedPriv
     strncpy(sigS, arrS, 1024);
 
     *sig_v = sign->v;
+
+    *errStatus = 0;
 
     mpz_clear(privateKeyMpz);
     mpz_clear(msgMpz);
@@ -1295,6 +1334,8 @@ void trustedBlsSignMessageAES(int *errStatus, char *errString, uint8_t *encrypte
         *errStatus = -1;
         return;
     }
+
+    *errStatus = 0;
 }
 
 void
@@ -1349,6 +1390,8 @@ trustedDecryptDkgSecretAES(int *errStatus, char *errString, uint8_t *encrypted_d
         *errStatus = status;
         return;
     }
+
+    *errStatus = 0;
 }
 
 void trustedSetEncryptedDkgPolyAES(int *errStatus, char *errString, uint8_t *encrypted_poly, uint64_t *enc_len) {
@@ -1362,6 +1405,8 @@ void trustedSetEncryptedDkgPolyAES(int *errStatus, char *errString, uint8_t *enc
         snprintf(errString, BUF_LEN, "sgx_unseal_data - encrypted_poly failed with status %d", status);
         return;
     }
+
+    *errStatus = 0;
 }
 
 void trustedGetEncryptedSecretShareAES(int *errStatus, char *errString, uint8_t *encrypted_skey, uint32_t *dec_len,
@@ -1424,6 +1469,8 @@ void trustedGetEncryptedSecretShareAES(int *errStatus, char *errString, uint8_t 
     strncpy(result_str, cypher, strlen(cypher));
     strncpy(result_str + strlen(cypher), pub_key_x, strlen(pub_key_x));
     strncpy(result_str + strlen(pub_key_x) + strlen(pub_key_y), pub_key_y, strlen(pub_key_y));
+
+    *errStatus = 0;
 }
 
 void trustedGetPublicSharesAES(int *errStatus, char *errString, uint8_t *encrypted_dkg_secret, uint32_t enc_len,
@@ -1449,6 +1496,8 @@ void trustedGetPublicSharesAES(int *errStatus, char *errString, uint8_t *encrypt
         free(decrypted_dkg_secret);
         return;
     }
+
+    *errStatus = 0;
 
     free(decrypted_dkg_secret);
 }
@@ -1502,6 +1551,8 @@ void trustedDkgVerifyAES(int *errStatus, char *errString, const char *public_sha
 
     *result = Verification(public_shares, s, _t, _ind);
     mpz_clear(s);
+
+    *errStatus = 0;
 
     snprintf(errString, BUF_LEN, "public shares %s", public_shares);
 }
@@ -1613,6 +1664,8 @@ void trustedCreateBlsKeyAES(int *errStatus, char *errString, const char *s_share
     }
     *enc_bls_key_len = strlen(key_share) + SGX_AESGCM_MAC_SIZE + SGX_AESGCM_IV_SIZE;
 
+    *errStatus = 0;
+
     mpz_clear(bls_key);
     mpz_clear(sum);
     mpz_clear(q);
@@ -1640,4 +1693,6 @@ trustedGetBlsPubKeyAES(int *errStatus, char *errString, uint8_t *encryptedPrivat
         snprintf(errString, BUF_LEN, "could not calculate bls public key");
         return;
     }
+
+    *errStatus = 0;
 }
